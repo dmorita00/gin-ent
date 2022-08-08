@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  go:
+    build:
+      context: devops/docker/go
+      dockerfile: Dockerfile
+      args:
+        DEPLOY: local
+    volumes:
+      - .:/code
+    ports:
+      - "8080:8080"
+  redis:
+    build:
+      context: devops/docker/redis
+      dockerfile: Dockerfile
+      args:
+        DEPLOY: local
+    volumes:
+      - .:/code
+    ports:
+      - "6379:6379"
+  localstack:
+    build:
+      context: devops/docker/localstack
+      dockerfile: Dockerfile
+      args:
+        DEPLOY: local
+    environment:
+      - AWS_DEFAULT_REGION=ap-northeast-1
+      - AWS_DEFAULT_OUTPUT=json
+      - AWS_ACCESS_KEY_ID=dummy
+      - AWS_SECRET_ACCESS_KEY=dummy
+      - LOCALSTACK_SERVICES=s3,ses
+      - LS_LOG=debug
+      - DEBUG=1
+    ports:
+      - "4566:4566"

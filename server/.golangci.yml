@@ -1,0 +1,6 @@
+linters-settings:
+  govet:
+    enable-all: true
+    disable: # これらは無効にさせる
+      - fieldalignment # 構造体の並びの最適化
+      - shadow # 変数のシャドーイング
